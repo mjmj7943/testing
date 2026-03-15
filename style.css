@@ -1,0 +1,641 @@
+/* ============================================================
+   style.css — 모노크롬 유틸리티 디자인 시스템
+   원칙: 흑/백/회색 기반. 경고/오류만 레드. 아이콘 없음.
+   ============================================================ */
+
+/* ── 1. CSS 변수 (Design Tokens) ──────────────────────────── */
+:root {
+  --black:       #000000;
+  --white:       #FFFFFF;
+  --red:         #FF0000;
+  --gray-100:    #F5F5F5;  /* 배경 */
+  --gray-200:    #E8E8E8;  /* 구분선, 비활성 테두리 */
+  --gray-400:    #AAAAAA;  /* 보조 텍스트 */
+  --gray-600:    #666666;  /* 중간 텍스트 */
+
+  --radius:      3px;       /* 모든 요소 공통 곡률 */
+  --font:        'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+
+  --spacing-xs:  4px;
+  --spacing-sm:  8px;
+  --spacing-md:  16px;
+  --spacing-lg:  24px;
+  --spacing-xl:  40px;
+
+  --input-border: 1px solid var(--gray-200);
+  --input-border-active: 2px solid var(--black);
+}
+
+/* ── 2. Reset & Base ──────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  height: 100%;
+  font-family: var(--font);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--black);
+  background: var(--white);
+  -webkit-font-smoothing: antialiased;
+}
+
+#app {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* ── 3. 공통 레이아웃 ─────────────────────────────────────── */
+.screen {
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* 고정 헤더 */
+.header {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md);
+  border-bottom: 1px solid var(--gray-200);
+  background: var(--white);
+  min-height: 52px;
+}
+.header-title {
+  font-size: 16px;
+  font-weight: 700;
+  flex: 1;
+}
+.header-back {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--spacing-xs) var(--spacing-sm) var(--spacing-xs) 0;
+  font-size: 14px;
+  color: var(--black);
+  font-family: var(--font);
+  font-weight: 400;
+}
+
+/* 스크롤 영역 */
+.content {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: var(--spacing-md);
+}
+
+/* 고정 하단 버튼 영역 */
+.footer-actions {
+  flex-shrink: 0;
+  display: flex;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  border-top: 1px solid var(--gray-200);
+  background: var(--white);
+}
+
+/* ── 4. 버튼 ──────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px var(--spacing-md);
+  border-radius: var(--radius);
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.1s;
+  white-space: nowrap;
+  text-align: center;
+}
+.btn:active { opacity: 0.7; }
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* 핵심 CTA: 흑색 배경 */
+.btn-primary {
+  background: var(--black);
+  color: var(--white);
+  border: none;
+  flex: 1;
+}
+
+/* 일반 동작: 흰 배경 + 흑색 테두리 */
+.btn-secondary {
+  background: var(--white);
+  color: var(--black);
+  border: 1px solid var(--black);
+  flex: 1;
+}
+
+/* 텍스트 버튼: 테두리 없음 */
+.btn-text {
+  background: none;
+  border: none;
+  color: var(--black);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-weight: 400;
+}
+
+/* 파괴적 동작: 흰 배경 + 레드 테두리 */
+.btn-danger {
+  background: var(--white);
+  color: var(--red);
+  border: 1px solid var(--red);
+}
+
+/* ── 5. 입력 필드 ─────────────────────────────────────────── */
+.form-group {
+  margin-bottom: var(--spacing-md);
+}
+
+.form-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: var(--spacing-xs);
+  color: var(--black);
+}
+
+.form-label.required::after {
+  content: ' *';
+  color: var(--red);
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px var(--spacing-sm);
+  border: var(--input-border);
+  border-radius: var(--radius);
+  font-family: var(--font);
+  font-size: 15px;
+  color: var(--black);
+  background: var(--white);
+  appearance: none;
+  -webkit-appearance: none;
+}
+.form-input:focus {
+  outline: none;
+  border: var(--input-border-active);
+}
+.form-input.error {
+  border: 1px solid var(--red);
+}
+.form-input::placeholder {
+  color: var(--gray-400);
+}
+
+select.form-input {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M0 0l6 8 6-8z' fill='%23000'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 28px;
+}
+
+.form-error-text {
+  display: none;
+  color: var(--red);
+  font-size: 11px;
+  margin-top: var(--spacing-xs);
+}
+.form-group.has-error .form-error-text { display: block; }
+.form-group.has-error .form-input { border-color: var(--red); }
+
+/* ── 6. 체크박스 (O/X 라디오) ─────────────────────────────── */
+.radio-group {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+.radio-option {
+  flex: 1;
+  position: relative;
+}
+.radio-option input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.radio-option label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  transition: all 0.1s;
+}
+.radio-option input[type="radio"]:checked + label {
+  border-color: var(--black);
+  border-width: 2px;
+  background: var(--gray-100);
+}
+.radio-option.choice-o input:checked + label { color: var(--black); }
+.radio-option.choice-x input:checked + label { color: var(--red); }
+
+/* ── 7. 사진 입력 카드 ────────────────────────────────────── */
+.image-card {
+  width: 100%;
+  border: var(--input-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--gray-100);
+  aspect-ratio: 4/3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  font-size: 13px;
+  color: var(--gray-600);
+}
+.image-card.has-image {
+  background: transparent;
+  border-color: var(--black);
+}
+.image-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.image-card.ratio-16-9 { aspect-ratio: 16/9; }
+.image-card.ratio-1-1  { aspect-ratio: 1/1; }
+.image-card.error { border-color: var(--red); }
+
+.image-card-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-xs);
+}
+
+/* ── 8. 서명 카드 ─────────────────────────────────────────── */
+.signature-card {
+  width: 100%;
+  border: var(--input-border);
+  border-radius: var(--radius);
+  padding: var(--spacing-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  background: var(--gray-100);
+}
+.signature-card.has-signature {
+  border-color: var(--black);
+  background: var(--white);
+}
+.signature-card img {
+  height: 40px;
+  max-width: 200px;
+  object-fit: contain;
+}
+.signature-card.error { border-color: var(--red); }
+
+/* ── 9. 카드 목록 (양식 선택) ────────────────────────────── */
+.card {
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
+}
+.card-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: var(--spacing-xs);
+}
+.card-meta {
+  font-size: 11px;
+  color: var(--gray-400);
+  margin-bottom: var(--spacing-sm);
+}
+.card-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* ── 10. 홈 화면 버튼 카드 ───────────────────────────────── */
+.home-screen {
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-xl) var(--spacing-md) var(--spacing-md);
+}
+.home-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: var(--spacing-xs);
+}
+.home-subtitle {
+  font-size: 13px;
+  color: var(--gray-600);
+  margin-bottom: var(--spacing-xl);
+}
+.home-cards {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+.home-card {
+  border: 1px solid var(--black);
+  border-radius: var(--radius);
+  padding: var(--spacing-lg);
+  cursor: pointer;
+  background: var(--white);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+.home-card:active { background: var(--gray-100); }
+.home-card-title {
+  font-size: 16px;
+  font-weight: 700;
+}
+.home-card-desc {
+  font-size: 12px;
+  color: var(--gray-600);
+}
+.home-card.primary {
+  background: var(--black);
+  color: var(--white);
+}
+.home-card.primary .home-card-desc { color: var(--gray-400); }
+
+/* ── 11. 모달 ─────────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: flex-end;
+  z-index: 1000;
+}
+.modal-overlay.center {
+  align-items: center;
+  justify-content: center;
+}
+.modal-sheet {
+  background: var(--white);
+  width: 100%;
+  border-radius: var(--radius) var(--radius) 0 0;
+  padding: var(--spacing-lg) var(--spacing-md);
+}
+.modal-dialog {
+  background: var(--white);
+  width: calc(100% - 32px);
+  max-width: 360px;
+  border-radius: var(--radius);
+  padding: var(--spacing-lg) var(--spacing-md);
+}
+.modal-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: var(--spacing-sm);
+}
+.modal-body {
+  font-size: 13px;
+  color: var(--gray-600);
+  margin-bottom: var(--spacing-md);
+  line-height: 1.7;
+}
+.modal-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+/* ── 12. 이미지 소스 선택 시트 ───────────────────────────── */
+.source-sheet-btn {
+  display: block;
+  width: 100%;
+  padding: var(--spacing-md);
+  text-align: left;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--gray-200);
+  font-family: var(--font);
+  font-size: 15px;
+  cursor: pointer;
+  color: var(--black);
+}
+.source-sheet-btn:last-child { border-bottom: none; }
+.source-sheet-btn:active { background: var(--gray-100); }
+
+/* ── 13. 크롭 UI ──────────────────────────────────────────── */
+.crop-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--black);
+  display: flex;
+  flex-direction: column;
+  z-index: 2000;
+}
+.crop-viewport {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  touch-action: none;
+}
+.crop-canvas-container {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#crop-canvas {
+  max-width: 100%;
+  max-height: 100%;
+  cursor: move;
+}
+.crop-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.crop-guide {
+  position: absolute;
+  border: 2px solid var(--white);
+  box-shadow: 0 0 0 9999px rgba(0,0,0,0.5);
+}
+.crop-footer {
+  flex-shrink: 0;
+  display: flex;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  background: var(--black);
+}
+.crop-footer .btn-primary { flex: 2; }
+.crop-footer .btn-secondary {
+  flex: 1;
+  border-color: var(--gray-400);
+  color: var(--white);
+  background: transparent;
+}
+
+/* ── 14. 서명 UI ──────────────────────────────────────────── */
+.signature-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--white);
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+}
+/* 내용물만 90도 회전 (실제 화면은 세로 유지) */
+.signature-inner {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(90deg);
+  transform-origin: center;
+  /* 회전 후 가로/세로 교환되어 긴 서명 공간 확보 */
+}
+.signature-label {
+  font-size: 13px;
+  color: var(--gray-600);
+  margin-bottom: var(--spacing-sm);
+}
+#signature-canvas {
+  border: 1px solid var(--black);
+  border-radius: var(--radius);
+  cursor: crosshair;
+  touch-action: none;
+  background: var(--white);
+}
+.signature-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-sm);
+}
+
+/* ── 15. 스낵바 ───────────────────────────────────────────── */
+.snackbar {
+  position: fixed;
+  bottom: var(--spacing-xl);
+  left: var(--spacing-md);
+  right: var(--spacing-md);
+  background: var(--black);
+  color: var(--white);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  z-index: 3000;
+  animation: slideUp 0.2s ease;
+}
+.snackbar .btn-text { color: var(--gray-400); font-size: 13px; }
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+/* ── 16. 관리자 화면 ─────────────────────────────────────── */
+.admin-screen {
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.admin-login {
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-xl) var(--spacing-lg);
+  max-width: 400px;
+  margin: 0 auto;
+  width: 100%;
+}
+.admin-login h1 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: var(--spacing-xs);
+  align-self: flex-start;
+}
+.admin-login p {
+  font-size: 13px;
+  color: var(--gray-600);
+  margin-bottom: var(--spacing-xl);
+  align-self: flex-start;
+}
+.admin-login .form-group { width: 100%; }
+.admin-login .btn { width: 100%; margin-top: var(--spacing-sm); }
+
+/* 관리자 목록 행 */
+.list-item {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-md) 0;
+  border-bottom: 1px solid var(--gray-200);
+  gap: var(--spacing-sm);
+}
+.list-item-title { flex: 1; font-weight: 600; font-size: 14px; }
+.list-item-meta  { font-size: 11px; color: var(--gray-400); }
+
+/* ── 17. 로딩 ─────────────────────────────────────────────── */
+.loading-screen {
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gray-400);
+  font-size: 13px;
+}
+
+/* ── 18. 진행 표시 ────────────────────────────────────────── */
+.progress-bar {
+  height: 2px;
+  background: var(--gray-200);
+  position: relative;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: var(--black);
+  transition: width 0.3s ease;
+}
+
+/* ── 19. 구분선, 섹션 헤더 ───────────────────────────────── */
+.section-divider {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gray-400);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: var(--spacing-sm) 0 var(--spacing-xs);
+  border-bottom: 1px solid var(--gray-200);
+  margin-bottom: var(--spacing-md);
+}
+
+/* ── 20. 반응형 (PC 관리자 화면) ─────────────────────────── */
+@media (min-width: 640px) {
+  .admin-screen {
+    border-left: 1px solid var(--gray-200);
+    border-right: 1px solid var(--gray-200);
+  }
+  .home-cards {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .home-card { flex: 1; min-width: 200px; }
+}

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <!-- 모바일 최적화: 확대/축소 비활성화 (입력 편의) -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <!-- iOS PWA 설정 -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="점검보고서">
+  <title>현장점검 보고서</title>
+
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- 앱의 모든 화면이 이 div에 동적으로 렌더링됨 -->
+  <div id="app">
+    <div class="loading-screen">
+      <p>로딩 중...</p>
+    </div>
+  </div>
+
+  <!-- 이미지 크롭/서명에 사용되는 숨겨진 input -->
+  <input type="file" id="image-input" accept="image/*" capture="environment" style="display:none">
+  <input type="file" id="gallery-input" accept="image/*" style="display:none">
+
+  <!-- JSZip: HWPX 조립에 사용 (CDN) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+  <!-- 앱 진입점 (ES Module) -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
